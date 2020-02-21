@@ -1,0 +1,33 @@
+import "platform:/plugin/org.genivi.commonapi.someip/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
+import "Interface1.fidl"
+
+define org.genivi.commonapi.someip.deployment for interface commonapi.examples.Interface1 {
+    SomeIpServiceID = 4660
+
+    attribute aString {
+        SomeIpGetterID = 3000
+        SomeIpSetterID = 3001
+        SomeIpNotifierID = 33010
+        SomeIpEventGroups = { 33010 }
+
+        SomeIpGetterReliable = true
+        SomeIpSetterReliable = true
+        SomeIpNotifierReliable = true
+    }
+
+    method setUInt32 {
+        SomeIpMethodID = 30000
+    }
+
+    method getUInt32 {
+        SomeIpMethodID = 30001
+    }
+}
+
+define org.genivi.commonapi.someip.deployment for provider Interface1Service {
+    instance commonapi.examples.Interface1 {
+        InstanceId = "commonapi.examples.Interface1"
+        
+        SomeIpInstanceID = 22136
+    }
+}

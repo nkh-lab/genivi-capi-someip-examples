@@ -1,0 +1,11 @@
+*.config
+*.creator
+*.user
+*.files
+*.includes
+*.swp
+*.cflags
+*.cxxflags
+build/
+temp/
+tools/

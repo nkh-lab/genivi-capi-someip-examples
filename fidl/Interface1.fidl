@@ -1,0 +1,19 @@
+package commonapi.examples
+
+interface Interface1 {
+    version { major 0 minor 1 }
+
+    attribute String aString
+
+    method setUInt32 {
+        in {
+            UInt32 value
+        }
+    }
+
+    method getUInt32 {
+        out {
+            UInt32 value
+        }
+    }
+}
