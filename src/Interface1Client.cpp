@@ -17,8 +17,7 @@ int main(int argc, char *argv[])
     std::string domain = "local";
     std::string instance = "commonapi.examples.Interface1";
 
-    std::shared_ptr<Interface1Proxy<>> myProxy = runtime->buildProxy<Interface1Proxy>(domain,
-            instance);
+    std::shared_ptr<Interface1Proxy<>> myProxy = runtime->buildProxy<Interface1Proxy>(domain, instance);
 
     std::cout << "Checking availability!" << std::endl;
     while (!myProxy->isAvailable())
@@ -41,26 +40,25 @@ int main(int argc, char *argv[])
         myProxy->getAStringAttribute().setValue(std::to_string(s), callStatus, gS);
 
         if (callStatus != CommonAPI::CallStatus::SUCCESS) {
-            std::cerr << "getAStringAttribute().setValue() call failed!\n";
+            std::cerr << "getAStringAttribute().setValue() call failed!" << std::endl;
             return -1;
         }
         else {
             std::cerr << "getAStringAttribute().setValue() was set to:" << gS << std::endl;
         }
 
-        std::cout << "setUInt32: " << s << std::endl;
+        std::cout << "setUInt32(): " << s << std::endl;
         myProxy->setUInt32(s, callStatus);
         if (callStatus != CommonAPI::CallStatus::SUCCESS) {
-            std::cerr << "setUInt32() call failed!\n";
+            std::cerr << "setUInt32() call failed!" << std::endl;
             return -1;
         }
 
         std::this_thread::sleep_for(std::chrono::seconds(3));
 
-
         myProxy->getUInt32(callStatus, g);
         if (callStatus != CommonAPI::CallStatus::SUCCESS) {
-            std::cerr << "getUInt32() call failed!\n";
+            std::cerr << "getUInt32() call failed!" << std::endl;
             return -1;
         }
         std::cout << "getUInt32(): " << g << std::endl;
