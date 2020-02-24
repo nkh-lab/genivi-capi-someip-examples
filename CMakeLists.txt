@@ -41,7 +41,9 @@ target_link_libraries(Interface1-Service CommonAPI)
 
 # Build Client
 add_executable(Interface1-Client
-    src/Interface1Client.cpp)
+    src/Interface1Client.cpp
+    scripts/RunInterface1Client.sh)
+target_link_libraries(Interface1-Client CommonAPI)
 
 # Build SOME/IP library
 add_library (Interface1-SomeIP SHARED

@@ -1,23 +1,22 @@
 {
-    "unicast": "127.0.0.1",
     "logging":
     {
-        "level" : "debug",
-        "console" : "true",
-        "file" : { "enable" : "true", "path" : "./vsomeip.log" },
-        "dlt" : "false"
+        "level": "debug",
+        "console": "true",
+        "file": { "enable": "true", "path": "./vsomeip.log" },
+        "dlt": "false"
     },
 
     "applications":
     [
         {
-            "name":"Interface1-Service",
-            "id":"0x4444"
+            "name": "Interface1-Service",
+            "id": "0x4444"
         },
 
         {
-            "name":"Interface1-Client",
-            "id":"0x5555"
+            "name": "Interface1-Client",
+            "id": "0x5555"
         }
     ],
 
@@ -26,13 +25,13 @@
         {
             "service": 4660,
             "instance": 22136,
-            "reliable" : { "port" : "31000", "enable-magic-cookies" : "false" }
+            "reliable": { "port": "31000", "enable-magic-cookies": "false" }
         }
     ],
 
-    "routing":"Interface1-Service",
+    "routing": "Interface1-Service",
     "service-discovery":
     {
-        "enable":"false"
+        "enable": "false"
     }
 }
