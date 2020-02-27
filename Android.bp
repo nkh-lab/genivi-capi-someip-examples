@@ -1,0 +1,87 @@
+cc_defaults {
+    name: "capi-someip_defaults",
+    vendor: true,
+    rtti: true,
+    cpp_std: "gnu++11",
+
+    cppflags: [
+        "-fexceptions",
+        "-Wall",
+        "-Werror",
+        "-Wno-ignored-attributes",
+        "-Wno-unused-parameter",
+        "-Wno-overloaded-virtual",
+    ],
+
+    ldflags: ["-Wl,-export-dynamic"],
+}
+
+cc_binary {
+    name: "Interface1-Service",
+    defaults: ["capi-someip_defaults"],
+
+    srcs: [
+        "src/Interface1Service.cpp",
+        "src/Interface1StubImpl.cpp",
+        "src-gen/commonapi/v0/commonapi/examples/Interface1StubDefault.cpp",
+    ],
+
+    local_include_dirs: [
+        "src",
+        "src-gen/commonapi",
+    ],
+
+    shared_libs: [
+        "libCommonAPI",
+    ],
+}
+
+cc_binary {
+    name: "Interface1-Client",
+    defaults: ["capi-someip_defaults"],
+
+    srcs: [
+        "src/Interface1Client.cpp",
+    ],
+
+    local_include_dirs: [
+        "src-gen/commonapi",
+    ],
+
+    shared_libs: [
+        "libCommonAPI",
+    ],
+}
+
+cc_library_shared {
+    name: "libInterface1-SomeIP",
+    defaults: ["capi-someip_defaults"],
+
+    srcs: [
+        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPDeployment.cpp",
+        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPProxy.cpp",
+        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPStubAdapter.cpp",
+    ],
+
+    local_include_dirs: [
+        "src-gen/someip",
+        "src-gen/commonapi"
+    ],
+
+    shared_libs: [
+        "libCommonAPI-SomeIP",
+        "libCommonAPI",
+    ],
+}
+
+prebuilt_etc {
+    name: "commonapi.ini",
+    sub_dir: "capi-someip",
+    src: "config/commonapi.ini",
+}
+
+prebuilt_etc {
+    name: "vsomeip.json",
+    sub_dir: "capi-someip",
+    src: "config/vsomeip.json",
+}

@@ -14,10 +14,22 @@ int main(int argc, char *argv[])
 
     std::shared_ptr < CommonAPI::Runtime > runtime = CommonAPI::Runtime::get();
 
+    if(!runtime)
+    {
+        std::cerr << "CommonAPI::Runtime::get() returned nullptr" << std::endl;
+        return -1;
+    }
+
     std::string domain = "local";
     std::string instance = "commonapi.examples.Interface1";
 
     std::shared_ptr<Interface1Proxy<>> myProxy = runtime->buildProxy<Interface1Proxy>(domain, instance);
+
+    if(!myProxy)
+    {
+        std::cerr << "runtime->buildProxy() returned nullptr" << std::endl;
+        return -1;
+    }
 
     std::cout << "Checking availability!" << std::endl;
     while (!myProxy->isAvailable())
@@ -44,7 +56,7 @@ int main(int argc, char *argv[])
             return -1;
         }
         else {
-            std::cerr << "getAStringAttribute().setValue() was set to:" << gS << std::endl;
+            std::cerr << "getAStringAttribute().setValue() was set to: " << gS << std::endl;
         }
 
         std::cout << "setUInt32(): " << s << std::endl;

@@ -45,13 +45,20 @@ Interface1SomeIPStubAdapter.hpp
 ### CommonAPI runtime library
 Project: https://github.com/GENIVI/capicxx-core-runtime
 Useful to enforce logging:
+CMake:
 ```
 cmake -DMAX_LOG_LEVEL=VERBOSE -DUSE_CONSOLE=ON ..
 ```
+AOSP, Android.bp cflags:
+"-DCOMMONAPI_LOGLEVEL=COMMONAPI_LOGLEVEL_VERBOSE",
+"-DUSE_CONSOLE",
+
 ### CommonAPI-SOMEIP and VSOMEIP runtime libraries
 Project: https://github.com/GENIVI/capicxx-someip-runtime.git
 which depends on VSOMEIP
 Project: https://github.com/GENIVI/vsomeip.git
+
+To enforce logging use the same configuration like above for CommonAPI.
 
 ## Configuration files -> ./config
 ### CommonAPI -> commonapi.ini
@@ -72,3 +79,16 @@ cd ./scripts
 ./RunInterface1Service.sh
 ./RunInterface1Client.sh
 ```
+
+### On AOSP
+#### Service
+VSOMEIP_APPLICATION_NAME=Interface1-Service \
+VSOMEIP_CONFIGURATION=/etc/capi-someip/vsomeip.json \
+COMMONAPI_CONFIG=/etc/capi-someip/commonapi.ini \
+Interface1-Service
+
+#### Client
+VSOMEIP_APPLICATION_NAME=Interface1-Client \
+VSOMEIP_CONFIGURATION=/etc/capi-someip/vsomeip.json \
+COMMONAPI_CONFIG=/etc/capi-someip/commonapi.ini \
+Interface1-Client
