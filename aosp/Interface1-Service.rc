@@ -1,0 +1,12 @@
+service Interface1-Service /vendor/bin/Interface1-Service
+    class   main
+    user    oem_2901
+    group   oem_2901
+    disabled
+    setenv VSOMEIP_APPLICATION_NAME Interface1-Service
+    setenv VSOMEIP_CONFIGURATION    /vendor/etc/capi-someip/vsomeip.json
+    setenv COMMONAPI_CONFIG         /vendor/etc/capi-someip/commonapi.ini
+
+on property:sys.boot_completed=1
+    mkdir /data/vendor/vsomeip 0771 oem_2901 oem_2901
+    start Interface1-Service

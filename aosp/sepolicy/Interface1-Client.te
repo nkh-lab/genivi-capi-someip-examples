@@ -1,0 +1,9 @@
+type Interface1-Client, domain;
+type Interface1-Client_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(Interface1-Client);
+
+allow Interface1-Client sysfs:file { open read };
+allow Interface1-Client vendor_data_file:dir { add_name remove_name write };
+allow Interface1-Client vendor_data_file:sock_file { create setattr read write unlink };
+allow Interface1-Client Interface1-Service:unix_stream_socket connectto;

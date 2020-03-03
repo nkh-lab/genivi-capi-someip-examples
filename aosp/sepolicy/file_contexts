@@ -1,0 +1,2 @@
+/vendor/bin/Interface1-Service      u:object_r:Interface1-Service_exec:s0
+/vendor/bin/Interface1-Client       u:object_r:Interface1-Client_exec:s0

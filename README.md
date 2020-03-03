@@ -73,7 +73,18 @@ which are loaded dinamicaly during runtime.
 Set predefined envairoment variables with values to coresponding configuration files
 and describe place where SOME/IP libraries are placed which would be loaded in runtime.
 
+## Build
+### On Ubuntu
+By CMake.
+
+### On AOSP
+Via mma or add to /device/linaro/hikey/hikey960/device-hikey960.mk
+```sh
+$(call inherit-product-if-exists, vendor/genivi-capi-someip-examples/aosp/config.mk)
+```
+
 ## Run
+### On Ubuntu
 ```
 cd ./scripts
 ./RunInterface1Service.sh
@@ -81,14 +92,37 @@ cd ./scripts
 ```
 
 ### On AOSP
-#### Service
+#### Manualy under root:
+Service:
+```sh
 VSOMEIP_APPLICATION_NAME=Interface1-Service \
-VSOMEIP_CONFIGURATION=/etc/capi-someip/vsomeip.json \
-COMMONAPI_CONFIG=/etc/capi-someip/commonapi.ini \
+VSOMEIP_CONFIGURATION=/vendor/etc/capi-someip/vsomeip.json \
+COMMONAPI_CONFIG=/vendor/etc/capi-someip/commonapi.ini \
 Interface1-Service
-
-#### Client
+```
+Client:
+```sh
 VSOMEIP_APPLICATION_NAME=Interface1-Client \
-VSOMEIP_CONFIGURATION=/etc/capi-someip/vsomeip.json \
-COMMONAPI_CONFIG=/etc/capi-someip/commonapi.ini \
+VSOMEIP_CONFIGURATION=/vendor/etc/capi-someip/vsomeip.json \
+COMMONAPI_CONFIG=/vendor/etc/capi-someip/commonapi.ini \
 Interface1-Client
+```
+#### Via init.rc
+Please see ./aosp stuff.
+
+**Atention!**: Base path should be changed in /external/vsomeip/implementation/configuration/include/internal_android.hpp from "/storage/" to:
+```cpp
+#define VSOMEIP_BASE_PATH                       "/data/vendor/vsomeip/"
+```
+
+How sockets are used:
+```sh
+hikey960:/ $ ss -x
+
+Netid  State      Recv-Q Send-Q                  Local Address:Port     Peer Address:Port
+u_str  ESTAB      0      0     /data/vendor/vsomeip/vsomeip-0 19685     * 0
+u_str  ESTAB      0      0                                  * 19689     * 0
+u_str  ESTAB      0      0  /data/vendor/vsomeip/vsomeip-5555 26232     * 0
+u_str  ESTAB      0      0                                  * 26236     * 0
+u_str  ESTAB      0      0  /data/vendor/vsomeip/vsomeip-4444 26237     * 0
+```

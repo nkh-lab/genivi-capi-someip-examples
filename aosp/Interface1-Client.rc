@@ -1,0 +1,11 @@
+service Interface1-Client /vendor/bin/Interface1-Client
+    class   main
+    user    oem_2901
+    group   oem_2901
+    disabled
+    setenv VSOMEIP_APPLICATION_NAME Interface1-Client
+    setenv VSOMEIP_CONFIGURATION    /vendor/etc/capi-someip/vsomeip.json
+    setenv COMMONAPI_CONFIG         /vendor/etc/capi-someip/commonapi.ini
+
+on property:init.svc.Interface1-Service=running
+    start Interface1-Client
