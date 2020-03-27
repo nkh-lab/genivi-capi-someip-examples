@@ -4,7 +4,7 @@
 #include "v0/commonapi/examples/Interface1Proxy.hpp"
 
 #ifdef ANDROID
-#define LOG_TAG "Interface1Service.cpp"
+#define LOG_TAG "Interface1Client"
 #include "log/log.h"
 #endif
 

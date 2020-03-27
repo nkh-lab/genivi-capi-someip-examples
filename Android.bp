@@ -16,6 +16,12 @@ cc_defaults {
     ldflags: ["-Wl,-export-dynamic"],
 }
 
+runtime_required = [
+    "libInterface1-SomeIP",
+    "commonapi.ini",
+    "vsomeip.json",
+]
+
 cc_binary {
     name: "Interface1-Service",
     defaults: ["capi-someip_defaults"],
@@ -36,6 +42,8 @@ cc_binary {
         "libCommonAPI",
         "liblog",
     ],
+
+    required: runtime_required,
 }
 
 cc_binary {
@@ -55,6 +63,8 @@ cc_binary {
         "libCommonAPI",
         "liblog",
     ],
+
+    required: runtime_required,
 }
 
 cc_library_shared {

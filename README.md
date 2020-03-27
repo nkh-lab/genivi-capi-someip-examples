@@ -114,8 +114,9 @@ Please see ./aosp stuff.
 ```cpp
 #define VSOMEIP_BASE_PATH                       "/data/vendor/vsomeip/"
 ```
+In https://github.com/nkh-lab/vsomeip.git already changed.
 
-How sockets are used:
+## How sockets are used
 ```sh
 hikey960:/ $ ss -x
 

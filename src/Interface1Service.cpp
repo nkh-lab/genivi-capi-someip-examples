@@ -4,7 +4,7 @@
 #include "Interface1StubImpl.hpp"
 
 #ifdef ANDROID
-#define LOG_TAG "Interface1Service.cpp"
+#define LOG_TAG "Interface1Service"
 #include "log/log.h"
 #endif
 
