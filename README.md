@@ -65,6 +65,10 @@ To enforce logging use the same configuration like above for CommonAPI.
 Main point is describe the binding of the interfaces with SOME/IP libraries
 which are loaded dinamicaly during runtime.
 
+But if CMake -DCOMMONAPI_INTERNAL_COMPILATION=ON (-> #define COMMONAPI_INTERNAL_COMPILATION)
+is defined all generated deplyoment SOMEIP stuff could be built in into Service and Client parts
+and therefore commonapi.ini and runtime SOME/IP library are not needed.
+
 ### VSOMEIP -> vsomeip.json
 - Binds parameters from *.fdepl with VSOMEIP configuration.
 - Sets routing. Would it be on Service side or by additional "vsomeipd" executable.
@@ -75,7 +79,18 @@ and describe place where SOME/IP libraries are placed which would be loaded in r
 
 ## Build
 ### On Ubuntu
-By CMake.
+By CMake:
+```
+cd ./build
+cmake ..
+make
+```
+or for defined COMMONAPI_INTERNAL_COMPILATION
+```
+cd ./build
+cmake -DCOMMONAPI_INTERNAL_COMPILATION=ON ..
+make
+```
 
 ### On AOSP
 Via mma or add to /device/linaro/hikey/hikey960/device-hikey960.mk
@@ -89,6 +104,11 @@ $(call inherit-product-if-exists, vendor/genivi-capi-someip-examples/aosp/config
 cd ./scripts
 ./RunInterface1Service.sh
 ./RunInterface1Client.sh
+```
+or for defined COMMONAPI_INTERNAL_COMPILATION
+```
+./RunInterface1Service_InternalCompilation.sh
+./RunInterface1Client_InternalCompilation.sh
 ```
 
 ### On AOSP
