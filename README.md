@@ -93,6 +93,15 @@ make
 ```
 
 ### On AOSP
+Prerequisite:
+```
+ln -s ./aosp/runtime_lib.bp Android.bp
+```
+or for defined COMMONAPI_INTERNAL_COMPILATION
+```
+ln -s ./aosp/internal_cmp.bp Android.bp
+```
+
 Via mma or add to /device/linaro/hikey/hikey960/device-hikey960.mk
 ```sh
 $(call inherit-product-if-exists, vendor/genivi-capi-someip-examples/aosp/config.mk)
@@ -113,6 +122,7 @@ or for defined COMMONAPI_INTERNAL_COMPILATION
 
 ### On AOSP
 #### Manualy under root:
+Example for runtime SOMEIP interface library (COMMONAPI_INTERNAL_COMPILATION not defined)
 Service:
 ```sh
 VSOMEIP_APPLICATION_NAME=Interface1-Service \
