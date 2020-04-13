@@ -14,6 +14,8 @@ cc_defaults {
     ],
 
     ldflags: ["-Wl,-export-dynamic"],
+
+    header_libs: [ "libnkhlablogger" ],
 }
 
 runtime_required = [

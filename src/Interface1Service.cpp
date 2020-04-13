@@ -5,19 +5,16 @@
 
 #ifdef ANDROID
 #define LOG_TAG "Interface1Service"
-#include "log/log.h"
 #endif
+
+#include "nkh-lab/logger.hpp"
 
 int main(int argc, char *argv[])
 {
     static_cast<void>(argc);
     static_cast<void>(argv);
 
-#ifdef ANDROID
-    ALOGI("Hello from Interface1Service");
-#else
-    std::cout << "Hello from Interface1Service" << std::endl;
-#endif
+    LOG_INF << "Hello from Interface1Service";
 
     std::shared_ptr<CommonAPI::Runtime> runtime = CommonAPI::Runtime::get();
 
@@ -27,30 +24,18 @@ int main(int argc, char *argv[])
     std::shared_ptr<Interface1StubImpl> myService = std::make_shared<Interface1StubImpl>();
     bool successfullyRegistered = runtime->registerService(domain, instance, myService);
 
-    while (!successfullyRegistered) {
-
-#ifdef ANDROID
-        ALOGI("Register Service failed, trying again in 100 milliseconds...");
-#else
-        std::cout << "Register Service failed, trying again in 100 milliseconds..." << std::endl;
-#endif
+    while (!successfullyRegistered)
+    {
+        LOG_INF << "Register Service failed, trying again in 100 milliseconds...";
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         successfullyRegistered = runtime->registerService(domain, instance, myService);
     }
 
-#ifdef ANDROID
-    ALOGI("Successfully Registered Service!");
-#else
-    std::cout << "Successfully Registered Service!" << std::endl;
-#endif
+    LOG_INF << "Successfully Registered Service!";
 
-    while (true) {
-
-#ifdef ANDROID
-        ALOGI("Waiting for calls... (Abort with CTRL+C)");
-#else
-        std::cout << "Waiting for calls... (Abort with CTRL+C)" << std::endl;
-#endif
+    while (true)
+    {
+        LOG_INF << "Waiting for calls... (Abort with CTRL+C)";
         std::this_thread::sleep_for(std::chrono::seconds(60));
     }
 

@@ -5,8 +5,9 @@
 
 #ifdef ANDROID
 #define LOG_TAG "Interface1Client"
-#include "log/log.h"
 #endif
+
+#include "nkh-lab/logger.hpp"
 
 using namespace v0::commonapi::examples;
 
@@ -15,21 +16,13 @@ int main(int argc, char *argv[])
     static_cast<void>(argc);
     static_cast<void>(argv);
 
-#ifdef ANDROID
-    ALOGI("Hello from Interface1Client");
-#else
-    std::cout << "Hello from Interface1Client" << std::endl;
-#endif
+    LOG_INF << "Hello from Interface1Client";
 
     std::shared_ptr < CommonAPI::Runtime > runtime = CommonAPI::Runtime::get();
 
     if(!runtime)
     {
-#ifdef ANDROID
-        ALOGE("CommonAPI::Runtime::get() returned nullptr");
-#else
-        std::cerr << "CommonAPI::Runtime::get() returned nullptr" << std::endl;
-#endif
+        LOG_ERR << "CommonAPI::Runtime::get() returned nullptr";
         return -1;
     }
 
@@ -40,28 +33,16 @@ int main(int argc, char *argv[])
 
     if(!myProxy)
     {
-#ifdef ANDROID
-        ALOGE("runtime->buildProxy() returned nullptr");
-#else
-        std::cerr << "runtime->buildProxy() returned nullptr" << std::endl;
-#endif
+        LOG_ERR << "runtime->buildProxy() returned nullptr";
         return -1;
     }
 
-#ifdef ANDROID
-    ALOGI("Checking availability!");
-#else
-    std::cout << "Checking availability!" << std::endl;
-#endif
+    LOG_INF << "Checking availability!";
 
     while (!myProxy->isAvailable())
         std::this_thread::sleep_for(std::chrono::microseconds(10));
 
-#ifdef ANDROID
-    ALOGI("Available...");
-#else
-    std::cout << "Available..." << std::endl;
-#endif
+    LOG_INF << "Available...";
 
     CommonAPI::CallStatus callStatus;
 
@@ -71,64 +52,42 @@ int main(int argc, char *argv[])
 
     myProxy->getAStringAttribute().getChangedEvent().subscribe([](std::string s)
     {
-#ifdef ANDROID
-        ALOGI("aString was changed to: %s", s.c_str());
-#else
-        std::cout << "aString was changed to: " << s << std::endl;
-#endif
+        LOG_INF << "aString was changed to: " << s;
     });
 
-    while (true) {
-
+    while (true)
+    {
         myProxy->getAStringAttribute().setValue(std::to_string(s), callStatus, gS);
 
-        if (callStatus != CommonAPI::CallStatus::SUCCESS) {
-#ifdef ANDROID
-            ALOGE("getAStringAttribute().setValue() call failed!");
-#else
-            std::cerr << "getAStringAttribute().setValue() call failed!" << std::endl;
-#endif
+        if (callStatus != CommonAPI::CallStatus::SUCCESS)
+        {
+            LOG_ERR << "getAStringAttribute().setValue() call failed!";
             return -1;
         }
-        else {
-#ifdef ANDROID
-            ALOGI("getAStringAttribute().setValue() was set to: %s", gS.c_str());
-#else
-            std::cout << "getAStringAttribute().setValue() was set to: " << gS << std::endl;
-#endif
+        else
+        {
+            LOG_INF << "getAStringAttribute().setValue() was set to: " << gS;
         }
 
-#ifdef ANDROID
-        ALOGI("setUInt32(): %d", s);
-#else
-        std::cout << "setUInt32(): " << s << std::endl;
-#endif
+        LOG_INF << "setUInt32(): " << s;
+
         myProxy->setUInt32(s, callStatus);
-        if (callStatus != CommonAPI::CallStatus::SUCCESS) {
-#ifdef ANDROID
-            ALOGE("setUInt32() call failed!");
-#else
-            std::cerr << "setUInt32() call failed!" << std::endl;
-#endif
+        if (callStatus != CommonAPI::CallStatus::SUCCESS)
+        {
+            LOG_ERR << "setUInt32() call failed!";
             return -1;
         }
 
         std::this_thread::sleep_for(std::chrono::seconds(3));
 
         myProxy->getUInt32(callStatus, g);
-        if (callStatus != CommonAPI::CallStatus::SUCCESS) {
-#ifdef ANDROID
-            ALOGE("getUInt32() call failed!");
-#else
-            std::cerr << "getUInt32() call failed!" << std::endl;
-#endif
+        if (callStatus != CommonAPI::CallStatus::SUCCESS)
+        {
+            LOG_ERR << "getUInt32() call failed!";
             return -1;
         }
-#ifdef ANDROID
-        ALOGI("getUInt32(): %d", g);
-#else
-        std::cout << "getUInt32(): " << g << std::endl;
-#endif
+
+        LOG_INF << "getUInt32(): " << g;
 
         std::this_thread::sleep_for(std::chrono::seconds(3));
 
