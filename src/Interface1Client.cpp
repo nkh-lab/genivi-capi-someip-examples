@@ -20,22 +20,14 @@ int main(int argc, char *argv[])
 
     std::shared_ptr < CommonAPI::Runtime > runtime = CommonAPI::Runtime::get();
 
-    if(!runtime)
-    {
-        LOG_ERR << "CommonAPI::Runtime::get() returned nullptr";
-        return -1;
-    }
+    if(!CHECK(runtime, "CommonAPI::Runtime::get() returned nullptr")) return -1;
 
     std::string domain = "local";
     std::string instance = "commonapi.examples.Interface1";
 
     std::shared_ptr<Interface1Proxy<>> myProxy = runtime->buildProxy<Interface1Proxy>(domain, instance);
 
-    if(!myProxy)
-    {
-        LOG_ERR << "runtime->buildProxy() returned nullptr";
-        return -1;
-    }
+    if(!CHECK(myProxy, "runtime->buildProxy() returned nullptr")) return -1;
 
     LOG_INF << "Checking availability!";
 
@@ -50,42 +42,37 @@ int main(int argc, char *argv[])
     uint32_t g=0;
     std::string gS;
 
-    myProxy->getAStringAttribute().getChangedEvent().subscribe([](std::string s)
+    myProxy->getAStringAttribute().getChangedEvent().subscribe(
+    [](std::string s)
     {
         LOG_INF << "aString was changed to: " << s;
-    });
+    }
+    ,
+    [](CommonAPI::CallStatus aStringCallStatus)
+    {
+        LOG_INF << "aString CallStatus: " << static_cast<int>(aStringCallStatus);
+    }
+    );
 
     while (true)
     {
         myProxy->getAStringAttribute().setValue(std::to_string(s), callStatus, gS);
 
-        if (callStatus != CommonAPI::CallStatus::SUCCESS)
-        {
-            LOG_ERR << "getAStringAttribute().setValue() call failed!";
-            return -1;
-        }
-        else
+        if (CHECK(callStatus == CommonAPI::CallStatus::SUCCESS, "getAStringAttribute().setValue() call failed!"))
         {
             LOG_INF << "getAStringAttribute().setValue() was set to: " << gS;
         }
+        else return -1;
 
         LOG_INF << "setUInt32(): " << s;
 
         myProxy->setUInt32(s, callStatus);
-        if (callStatus != CommonAPI::CallStatus::SUCCESS)
-        {
-            LOG_ERR << "setUInt32() call failed!";
-            return -1;
-        }
+        if (!CHECK(callStatus == CommonAPI::CallStatus::SUCCESS, "setUInt32() call failed!")) return -1;
 
         std::this_thread::sleep_for(std::chrono::seconds(3));
 
         myProxy->getUInt32(callStatus, g);
-        if (callStatus != CommonAPI::CallStatus::SUCCESS)
-        {
-            LOG_ERR << "getUInt32() call failed!";
-            return -1;
-        }
+        if (!CHECK(callStatus == CommonAPI::CallStatus::SUCCESS, "getUInt32() call failed!")) return -1;
 
         LOG_INF << "getUInt32(): " << g;
 

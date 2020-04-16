@@ -122,7 +122,11 @@ or for defined COMMONAPI_INTERNAL_COMPILATION
 
 ### On AOSP
 #### Manualy under root:
-Example for runtime SOMEIP interface library (COMMONAPI_INTERNAL_COMPILATION not defined)
+Require to:
+```sh
+mkdir /data/vendor/vsomeip
+```
+Example for runtime SOMEIP interface library, COMMONAPI_INTERNAL_COMPILATION not defined
 Service:
 ```sh
 VSOMEIP_APPLICATION_NAME=Interface1-Service \
@@ -135,6 +139,18 @@ Client:
 VSOMEIP_APPLICATION_NAME=Interface1-Client \
 VSOMEIP_CONFIGURATION=/vendor/etc/capi-someip/vsomeip.json \
 COMMONAPI_CONFIG=/vendor/etc/capi-someip/commonapi.ini \
+Interface1-Client
+```
+or for defined COMMONAPI_INTERNAL_COMPILATION
+```sh
+VSOMEIP_APPLICATION_NAME=Interface1-Service \
+VSOMEIP_CONFIGURATION=/vendor/etc/capi-someip/vsomeip.json \
+Interface1-Service
+```
+Client:
+```sh
+VSOMEIP_APPLICATION_NAME=Interface1-Client \
+VSOMEIP_CONFIGURATION=/vendor/etc/capi-someip/vsomeip.json \
 Interface1-Client
 ```
 #### Via init.rc

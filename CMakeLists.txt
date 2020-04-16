@@ -7,6 +7,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # project name e.g. for qt-creator
 project(genivi-capi-someip-examples)
 
+# nkh-lab/logger
+include_directories(../logger/include)
+list(APPEND USED_LIBS ${PROJECT_SOURCE_DIR}/../logger/build/libnkhlablogger.so)
+
 # CommonAPI
 find_package(CommonAPI 3.1.12 REQUIRED)
 include_directories(${COMMONAPI_INCLUDE_DIRS})
@@ -14,7 +18,7 @@ include_directories(${COMMONAPI_INCLUDE_DIRS})
 # SOME/IP
 find_package(CommonAPI-SomeIP 3.1.12 REQUIRED)
 
-option(COMMONAPI_INTERNAL_COMPILATION "Use internal SomeIP interface deployment or via shared lib" OFF) #OFF by default
+option(COMMONAPI_INTERNAL_COMPILATION "Use internal SomeIP interface deployment or via shared lib" ON) #OFF by default
 
 list(APPEND SERVICE_COMMONAPI_GEN_SRCS
     src-gen/commonapi/v0/commonapi/examples/Interface1.hpp

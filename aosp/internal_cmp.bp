@@ -14,7 +14,7 @@ cc_defaults {
         "-DCOMMONAPI_INTERNAL_COMPILATION",
     ],
 
-    header_libs: [ "libnkhlablogger" ],
+    shared_libs: [ "libnkhlablogger" ],
 
     ldflags: ["-Wl,-export-dynamic"],
 }
