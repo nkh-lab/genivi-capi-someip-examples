@@ -14,13 +14,18 @@ cc_defaults {
         "-DCOMMONAPI_INTERNAL_COMPILATION",
     ],
 
-    shared_libs: [ "libnkhlablogger" ],
+    shared_libs: [
+        "libCommonAPI",
+        "libCommonAPI-SomeIP",
+        "libnkhlablogger",
+        "liblog",
+    ],
 
     ldflags: ["-Wl,-export-dynamic"],
 }
 
 runtime_required = [
-    "vsomeip.json",
+    "genivi-capi-someip-examples-vsomeip.json",
 ]
 
 cc_binary {
@@ -28,24 +33,18 @@ cc_binary {
     defaults: ["capi-someip_defaults"],
     init_rc: ["aosp/Interface1-Service_InternalCompilation.rc"],
 
-    srcs: [
-        "src/Interface1Service.cpp",
-        "src/Interface1StubImpl.cpp",
-        "src-gen/commonapi/v0/commonapi/examples/Interface1StubDefault.cpp",
-        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPDeployment.cpp",
-        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPStubAdapter.cpp",
-    ],
-
     local_include_dirs: [
         "src",
         "src-gen/commonapi",
         "src-gen/someip",
     ],
 
-    shared_libs: [
-        "libCommonAPI",
-        "libCommonAPI-SomeIP",
-        "liblog",
+    srcs: [
+        "src/Interface1Service.cpp",
+        "src/Interface1StubImpl.cpp",
+        "src-gen/commonapi/v0/commonapi/examples/Interface1StubDefault.cpp",
+        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPDeployment.cpp",
+        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPStubAdapter.cpp",
     ],
 
     required: runtime_required,
@@ -56,29 +55,24 @@ cc_binary {
     defaults: ["capi-someip_defaults"],
     init_rc: ["aosp/Interface1-Client_InternalCompilation.rc"],
 
+    local_include_dirs: [
+        "src-gen/commonapi",
+        "src-gen/someip",
+    ],
+
     srcs: [
         "src/Interface1Client.cpp",
         "src-gen/someip/v0/commonapi/examples/Interface1SomeIPDeployment.cpp",
         "src-gen/someip/v0/commonapi/examples/Interface1SomeIPProxy.cpp",
     ],
 
-    local_include_dirs: [
-        "src-gen/commonapi",
-        "src-gen/someip",
-    ],
-
-    shared_libs: [
-        "libCommonAPI",
-        "libCommonAPI-SomeIP",
-        "liblog",
-    ],
-
     required: runtime_required,
 }
 
 prebuilt_etc {
-    name: "vsomeip.json",
+    name: "genivi-capi-someip-examples-vsomeip.json",
     vendor: true,
-    sub_dir: "capi-someip",
+    sub_dir: "genivi-capi-someip-examples",
     src: "config/vsomeip.json",
+    filename:"vsomeip.json"
 }

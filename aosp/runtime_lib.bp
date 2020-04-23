@@ -14,14 +14,12 @@ cc_defaults {
     ],
 
     ldflags: ["-Wl,-export-dynamic"],
-
-    shared_libs: [ "libnkhlablogger" ],
 }
 
 runtime_required = [
     "libInterface1-SomeIP",
-    "commonapi.ini",
-    "vsomeip.json",
+    "genivi-capi-someip-examples-commonapi.ini",
+    "genivi-capi-someip-examples-vsomeip.json",
 ]
 
 cc_binary {
@@ -29,10 +27,10 @@ cc_binary {
     defaults: ["capi-someip_defaults"],
     init_rc: ["aosp/Interface1-Service.rc"],
 
-    srcs: [
-        "src/Interface1Service.cpp",
-        "src/Interface1StubImpl.cpp",
-        "src-gen/commonapi/v0/commonapi/examples/Interface1StubDefault.cpp",
+    shared_libs: [
+        "libCommonAPI",
+        "libnkhlablogger",
+        "liblog",
     ],
 
     local_include_dirs: [
@@ -40,9 +38,10 @@ cc_binary {
         "src-gen/commonapi",
     ],
 
-    shared_libs: [
-        "libCommonAPI",
-        "liblog",
+    srcs: [
+        "src/Interface1Service.cpp",
+        "src/Interface1StubImpl.cpp",
+        "src-gen/commonapi/v0/commonapi/examples/Interface1StubDefault.cpp",
     ],
 
     required: runtime_required,
@@ -53,17 +52,18 @@ cc_binary {
     defaults: ["capi-someip_defaults"],
     init_rc: ["aosp/Interface1-Client.rc"],
 
-    srcs: [
-        "src/Interface1Client.cpp",
+    shared_libs: [
+        "libCommonAPI",
+        "libnkhlablogger",
+        "liblog",
     ],
 
     local_include_dirs: [
         "src-gen/commonapi",
     ],
 
-    shared_libs: [
-        "libCommonAPI",
-        "liblog",
+    srcs: [
+        "src/Interface1Client.cpp",
     ],
 
     required: runtime_required,
@@ -73,10 +73,9 @@ cc_library_shared {
     name: "libInterface1-SomeIP",
     defaults: ["capi-someip_defaults"],
 
-    srcs: [
-        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPDeployment.cpp",
-        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPProxy.cpp",
-        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPStubAdapter.cpp",
+    shared_libs: [
+        "libCommonAPI-SomeIP",
+        "libCommonAPI",
     ],
 
     local_include_dirs: [
@@ -84,22 +83,25 @@ cc_library_shared {
         "src-gen/commonapi"
     ],
 
-    shared_libs: [
-        "libCommonAPI-SomeIP",
-        "libCommonAPI",
+    srcs: [
+        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPDeployment.cpp",
+        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPProxy.cpp",
+        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPStubAdapter.cpp",
     ],
 }
 
 prebuilt_etc {
-    name: "commonapi.ini",
+    name: "genivi-capi-someip-examples-commonapi.ini",
     vendor: true,
-    sub_dir: "capi-someip",
+    sub_dir: "genivi-capi-someip-examples",
     src: "config/commonapi.ini",
+    filename: "commonapi.ini"
 }
 
 prebuilt_etc {
-    name: "vsomeip.json",
+    name: "genivi-capi-someip-examples-vsomeip.json",
     vendor: true,
-    sub_dir: "capi-someip",
+    sub_dir: "genivi-capi-someip-examples",
     src: "config/vsomeip.json",
+    filename: "vsomeip.json"
 }

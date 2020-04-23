@@ -4,8 +4,8 @@ service Interface1-Service /vendor/bin/Interface1-Service
     group   oem_2901
     disabled
     setenv VSOMEIP_APPLICATION_NAME Interface1-Service
-    setenv VSOMEIP_CONFIGURATION    /vendor/etc/capi-someip/vsomeip.json
-    setenv COMMONAPI_CONFIG         /vendor/etc/capi-someip/commonapi.ini
+    setenv VSOMEIP_CONFIGURATION    /vendor/etc/genivi-capi-someip-examples/vsomeip.json
+    setenv COMMONAPI_CONFIG         /vendor/etc/genivi-capi-someip-examples/commonapi.ini
 
 on property:sys.boot_completed=1
     mkdir /data/vendor/vsomeip 0771 oem_2901 oem_2901

@@ -3,7 +3,7 @@
     {
         "level": "debug",
         "console": "true",
-        "file": { "enable": "true", "path": "./vsomeip.log" },
+        "file": { "enable": "false", "path": "./vsomeip.log" },
         "dlt": "false"
     },
 
@@ -17,15 +17,6 @@
         {
             "name": "Interface1-Client",
             "id": "0x5555"
-        }
-    ],
-
-    "services":
-    [
-        {
-            "service": 4660,
-            "instance": 22136,
-            "reliable": { "port": "31000", "enable-magic-cookies": "false" }
         }
     ],
 

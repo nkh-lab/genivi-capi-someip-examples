@@ -4,7 +4,7 @@ service Interface1-Client /vendor/bin/Interface1-Client
     group   oem_2901
     disabled
     setenv VSOMEIP_APPLICATION_NAME Interface1-Client
-    setenv VSOMEIP_CONFIGURATION    /vendor/etc/capi-someip/vsomeip.json
+    setenv VSOMEIP_CONFIGURATION    /vendor/etc/genivi-capi-someip-examples/vsomeip.json
 
 on property:init.svc.Interface1-Service=running
     start Interface1-Client

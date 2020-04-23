@@ -130,27 +130,27 @@ Example for runtime SOMEIP interface library, COMMONAPI_INTERNAL_COMPILATION not
 Service:
 ```sh
 VSOMEIP_APPLICATION_NAME=Interface1-Service \
-VSOMEIP_CONFIGURATION=/vendor/etc/capi-someip/vsomeip.json \
-COMMONAPI_CONFIG=/vendor/etc/capi-someip/commonapi.ini \
+VSOMEIP_CONFIGURATION=/vendor/etc/genivi-capi-someip-examples/vsomeip.json \
+COMMONAPI_CONFIG=/vendor/etc/genivi-capi-someip-examples/commonapi.ini \
 Interface1-Service
 ```
 Client:
 ```sh
 VSOMEIP_APPLICATION_NAME=Interface1-Client \
-VSOMEIP_CONFIGURATION=/vendor/etc/capi-someip/vsomeip.json \
-COMMONAPI_CONFIG=/vendor/etc/capi-someip/commonapi.ini \
+VSOMEIP_CONFIGURATION=/vendor/etc/genivi-capi-someip-examples/vsomeip.json \
+COMMONAPI_CONFIG=/vendor/etc/genivi-capi-someip-examples/commonapi.ini \
 Interface1-Client
 ```
 or for defined COMMONAPI_INTERNAL_COMPILATION
 ```sh
 VSOMEIP_APPLICATION_NAME=Interface1-Service \
-VSOMEIP_CONFIGURATION=/vendor/etc/capi-someip/vsomeip.json \
+VSOMEIP_CONFIGURATION=/vendor/etc/genivi-capi-someip-examples/vsomeip.json \
 Interface1-Service
 ```
 Client:
 ```sh
 VSOMEIP_APPLICATION_NAME=Interface1-Client \
-VSOMEIP_CONFIGURATION=/vendor/etc/capi-someip/vsomeip.json \
+VSOMEIP_CONFIGURATION=/vendor/etc/genivi-capi-someip-examples/vsomeip.json \
 Interface1-Client
 ```
 #### Via init.rc

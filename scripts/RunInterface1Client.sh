@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 export VSOMEIP_APPLICATION_NAME=Interface1-Client
 export VSOMEIP_CONFIGURATION=../config/vsomeip.json
