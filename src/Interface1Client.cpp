@@ -1,3 +1,5 @@
+#include "Interface1Client.hpp"
+
 #include <iostream>
 
 #include <CommonAPI/CommonAPI.hpp>
@@ -11,23 +13,21 @@
 
 using namespace v0::commonapi::examples;
 
-int main(int argc, char *argv[])
+void Interface1Client::main()
 {
-    static_cast<void>(argc);
-    static_cast<void>(argv);
 
     LOG_INF << "Hello from Interface1Client";
 
     std::shared_ptr < CommonAPI::Runtime > runtime = CommonAPI::Runtime::get();
 
-    if(!CHECK(runtime, "CommonAPI::Runtime::get() returned nullptr")) return -1;
+    CHECK(runtime, "CommonAPI::Runtime::get() returned nullptr");
 
     std::string domain = "local";
     std::string instance = "commonapi.examples.Interface1";
 
     std::shared_ptr<Interface1Proxy<>> myProxy = runtime->buildProxy<Interface1Proxy>(domain, instance);
 
-    if(!CHECK(myProxy, "runtime->buildProxy() returned nullptr")) return -1;
+    CHECK(myProxy, "runtime->buildProxy() returned nullptr");
 
     LOG_INF << "Checking availability!";
 
@@ -62,17 +62,16 @@ int main(int argc, char *argv[])
         {
             LOG_INF << "getAStringAttribute().setValue() was set to: " << gS;
         }
-        else return -1;
 
         LOG_INF << "setUInt32(): " << s;
 
         myProxy->setUInt32(s, callStatus);
-        if (!CHECK(callStatus == CommonAPI::CallStatus::SUCCESS, "setUInt32() call failed!")) return -1;
+        CHECK(callStatus == CommonAPI::CallStatus::SUCCESS, "setUInt32() call failed!");
 
         std::this_thread::sleep_for(std::chrono::seconds(3));
 
         myProxy->getUInt32(callStatus, g);
-        if (!CHECK(callStatus == CommonAPI::CallStatus::SUCCESS, "getUInt32() call failed!")) return -1;
+        CHECK(callStatus == CommonAPI::CallStatus::SUCCESS, "getUInt32() call failed!");
 
         LOG_INF << "getUInt32(): " << g;
 
@@ -80,6 +79,9 @@ int main(int argc, char *argv[])
 
         ++s;
     }
-
-    return 0;
 }
+
+void Interface1Client::start() {
+    mThread = std::thread(&Interface1Client::main, this);
+}
+

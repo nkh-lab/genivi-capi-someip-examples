@@ -7,16 +7,20 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # project name e.g. for qt-creator
 project(genivi-capi-someip-examples)
 
+set (COMMONAPI_INTERNAL_COMPILATION ON)
+
+include_directories(include)
+
 # nkh-lab/logger
-include_directories(../logger/include)
-list(APPEND USED_LIBS ${PROJECT_SOURCE_DIR}/../logger/build/libnkhlablogger.so)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../logger/include)
+list(APPEND USED_LIBS nkhlablogger)
 
 # CommonAPI
-find_package(CommonAPI 3.1.12 REQUIRED)
-include_directories(${COMMONAPI_INCLUDE_DIRS})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../capicxx-core-runtime/include)
 
 # SOME/IP
-find_package(CommonAPI-SomeIP 3.1.12 REQUIRED)
+#find_package(CommonAPI-SomeIP 3.1.12 REQUIRED)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../capicxx-someip-runtime/include)
 
 option(COMMONAPI_INTERNAL_COMPILATION "Use internal SomeIP interface deployment or via shared lib" ON) #OFF by default
 
@@ -106,11 +110,11 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall ${MY_CXX_FLAGS}")
 
 # Build Service
-add_executable(Interface1-Service ${SERVICE_SRCS})
+add_library(Interface1-Service SHARED ${SERVICE_SRCS})
 target_link_libraries(Interface1-Service ${USED_LIBS})
 
 # Build Client
-add_executable(Interface1-Client ${CLIENT_SRCS})
+add_library(Interface1-Client SHARED ${CLIENT_SRCS})
 target_link_libraries(Interface1-Client ${USED_LIBS})
 
 if(NOT COMMONAPI_INTERNAL_COMPILATION)
