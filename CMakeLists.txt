@@ -11,6 +11,24 @@ set (COMMONAPI_INTERNAL_COMPILATION ON)
 
 include_directories(include)
 
+# Workaround to fix dynamic_cast in libvsomeip3.so (vsomeip_v3::application_impl::init())
+# Possible root cause: the same type info in libvsomeip3.so and libvsomeip3-cfg.so
+# Fix: swap type info positions in linker by changing libraries loading order
+#(lldb) image lookup -r -v -s "typeinfo.*vsomeip_v3::configuration_plugin"
+#2 symbols match the regular expression 'typeinfo.*vsomeip_v3::configuration_plugin' in /home/nikolay/Projects/Android/AS/aposterauno/app/build/intermediates/cmake/debug/obj/x86/libvsomeip3.so:
+#        Address: libvsomeip3.so[0x00c96678] (libvsomeip3.so..data.rel.ro + 33064)
+#        Summary: libvsomeip3.so`typeinfo for vsomeip_v3::configuration_plugin
+#         Module: file = "/home/nikolay/Projects/Android/AS/aposterauno/app/build/intermediates/cmake/debug/obj/x86/libvsomeip3.so", arch = "i386"
+#         Symbol: id = {0x00082da2}, range = [0xcaa16678-0xcaa16680), name="typeinfo for vsomeip_v3::configuration_plugin", mangled="_ZTIN10vsomeip_v320configuration_pluginE"
+# ...
+#8 symbols match the regular expression 'typeinfo.*vsomeip_v3::configuration_plugin' in /home/nikolay/Projects/Android/AS/aposterauno/app/build/intermediates/cmake/debug/obj/x86/libvsomeip3-cfg.so:
+#        Address: libvsomeip3-cfg.so[0x002188fc] (libvsomeip3-cfg.so..data.rel.ro + 4132)
+#        Summary: libvsomeip3-cfg.so`typeinfo for vsomeip_v3::configuration_plugin
+#         Module: file = "/home/nikolay/Projects/Android/AS/aposterauno/app/build/intermediates/cmake/debug/obj/x86/libvsomeip3-cfg.so", arch = "i386"
+#         Symbol: id = {0x0000b2c6}, range = [0xcacb58fc-0xcacb5904), name="typeinfo for vsomeip_v3::configuration_plugin", mangled="_ZTIN10vsomeip_v320configuration_pluginE"
+#...
+list(APPEND USED_LIBS vsomeip3-cfg vsomeip3-sd)
+
 # nkh-lab/logger
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../logger/include)
 list(APPEND USED_LIBS nkhlablogger)
