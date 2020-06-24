@@ -30,7 +30,6 @@ include_directories(include)
 list(APPEND USED_LIBS vsomeip3-cfg vsomeip3-sd)
 
 # nkh-lab/logger
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../logger/include)
 list(APPEND USED_LIBS nkhlablogger)
 
 # CommonAPI
@@ -130,10 +129,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall ${MY_CXX_FLAGS}")
 # Build Service
 add_library(Interface1-Service SHARED ${SERVICE_SRCS})
 target_link_libraries(Interface1-Service ${USED_LIBS})
+target_include_directories(Interface1-Service PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # Build Client
 add_library(Interface1-Client SHARED ${CLIENT_SRCS})
 target_link_libraries(Interface1-Client ${USED_LIBS})
+target_include_directories(Interface1-Client PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 if(NOT COMMONAPI_INTERNAL_COMPILATION)
 # Build SOME/IP library
