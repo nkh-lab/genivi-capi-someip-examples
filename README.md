@@ -1,10 +1,18 @@
-# Examples of CommonAPI usage via SOMEIP
+# genivi-capi-someip-examples
+
+Examples of GENIVI CommonAPI usage via SOMEIP. 
+They cover Linux (tested on Ubuntu) and Android AOSP and NDK cases.
+
+For Android NDK please refer next Android Studio project: https://github.com/nkh-lab/ndk-capi-hello-world
+which uses current adapted implementation from ndk branch: https://github.com/nkh-lab/genivi-capi-someip-examples/tree/ndk .
 
 ## Codegeneration
 Described below codegeneration tools are not the part of the given repository.
-They are compiled and placed with whole theirs output stuff to:
+It means that they are compiled and placed manualy with whole theirs output stuff to:
+```
 ./tools/commonapi-generator/x86_64
 ./tools/commonapi-someip-generator/x86_64
+```
 acordingly.
 
 ### CommonAPI, fidl -> src-gen/commonapi -> Service and Client executables
