@@ -8,8 +8,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(genivi-capi-someip-examples)
 
 # nkh-lab/logger
-include_directories(../logger/include)
-list(APPEND USED_LIBS ${PROJECT_SOURCE_DIR}/../logger/build/libnkhlablogger.so)
+add_subdirectory(external/logger)
+list(APPEND USED_LIBS nkhlablogger)
 
 # CommonAPI
 find_package(CommonAPI 3.1.12 REQUIRED)
