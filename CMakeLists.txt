@@ -11,18 +11,20 @@ project(genivi-capi-someip-examples)
 add_subdirectory(external/logger)
 list(APPEND USED_LIBS nkhlablogger)
 
+# vsomeip3
+find_package(vsomeip3 3.1.20 REQUIRED)
+
 # CommonAPI
-find_package(CommonAPI 3.1.12 REQUIRED)
+find_package(CommonAPI 3.2.0 REQUIRED)
 include_directories(${COMMONAPI_INCLUDE_DIRS})
 
 # SOME/IP
-find_package(CommonAPI-SomeIP 3.1.12 REQUIRED)
+find_package(CommonAPI-SomeIP 3.2.0 REQUIRED)
 
 option(COMMONAPI_INTERNAL_COMPILATION "Use internal SomeIP interface deployment or via shared lib" ON) #OFF by default
 
 list(APPEND SERVICE_COMMONAPI_GEN_SRCS
     src-gen/commonapi/v0/commonapi/examples/Interface1.hpp
-    src-gen/commonapi/v0/commonapi/examples/Interface1StubDefault.cpp
     src-gen/commonapi/v0/commonapi/examples/Interface1StubDefault.hpp
     src-gen/commonapi/v0/commonapi/examples/Interface1Stub.hpp
     )

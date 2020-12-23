@@ -6,6 +6,16 @@ They cover Linux (tested on Ubuntu) and Android AOSP and NDK cases.
 For Android NDK please refer next Android Studio project: https://github.com/nkh-lab/ndk-capi-hello-world
 which uses current adapted implementation from ndk branch: https://github.com/nkh-lab/genivi-capi-someip-examples/tree/ndk .
 
+## Dependencies
+**Used codegeneartion tool projects:**
+1. https://github.com/GENIVI/capicxx-core-tools 3.2.0.1
+2. https://github.com/GENIVI/capicxx-someip-tools 3.2.0.1
+
+**Runtime libraries:**
+1. https://github.com/GENIVI/vsomeip 3.1.20
+2. https://github.com/GENIVI/capicxx-core-runtime 3.2.0
+3. https://github.com/GENIVI/capicxx-someip-runtime.git 3.2.0
+
 ## Codegeneration
 Described below codegeneration tools are not the part of the given repository.
 It means that they are compiled and placed manualy with whole theirs output stuff to:
@@ -17,9 +27,20 @@ acordingly.
 
 ### CommonAPI, fidl -> src-gen/commonapi -> Service and Client executables
 Project: https://github.com/GENIVI/capicxx-core-tools
+How to build generator:
+```
+cd ./capicxx-core-tools/org.genivi.commonapi.releng
+mvn -Dtarget.id=org.genivi.commonapi.core.target clean verify
+```
+Copy generator output stuff:
+```
+cd org.genivi.commonapi.core.cli.product/target/products
+unzip commonapi_core_generator.zip -d ~/My/Projects/genivi-capi-someip-examples/tools/commonapi-generator/x86_64
+```
+Codegeneration:
 ```
 cd ./tools/commonapi-generator/x86_64
-./commonapi-generator-linux-x86_64 -sk -d ../../../src-gen/commonapi ../../../fidl/Interface1.fidl
+./commonapi-core-generator-linux-x86_64 -sk -d ../../../src-gen/commonapi ../../../fidl/Interface1.fidl
 ```
 ```
 cd ./src-gen/commonapi/v0/commonapi/examples
@@ -34,6 +55,17 @@ Interface1Stub.hppp
 
 ### SOMEIP, fdepl -> src-gen/someip -> SOME/IP library
 Project: https://github.com/GENIVI/capicxx-someip-tools
+How to build generator:
+```
+cd ./capicxx-someip-tools/org.genivi.commonapi.someip.releng
+mvn clean verify -DCOREPATH=../../capicxx-core-tools -Dtarget.id=org.genivi.commonapi.someip.target
+```
+Copy generator output stuff:
+```
+cd org.genivi.commonapi.someip.cli.product/target/products
+unzip commonapi_someip_generator.zip -d ~/My/Projects/genivi-capi-someip-examples/tools/commonapi-someip-generator/x86_64
+```
+Codegeneration:
 ```
 cd ./tools/commonapi-someip-generator/x86_64
 ./commonapi-someip-generator-linux-x86_64 -d ../../../src-gen/someip ../../../fidl/Interface1.fdepl
@@ -50,8 +82,25 @@ Interface1SomeIPStubAdapter.hpp
 ```
 
 ## Runtime dependencies
+### vSOMEIP runtime library
+Project: https://github.com/GENIVI/vsomeip
+How to build and install:
+```
+cd build
+cmake -D CMAKE_INSTALL_PREFIX=/usr/local ..
+make
+sudo make install
+```
+
 ### CommonAPI runtime library
 Project: https://github.com/GENIVI/capicxx-core-runtime
+How to build and install:
+```
+cd build
+cmake -D CMAKE_INSTALL_PREFIX=/usr/local ..
+make
+sudo make install
+```
 Useful to enforce logging:
 CMake:
 ```
@@ -66,6 +115,13 @@ Project: https://github.com/GENIVI/capicxx-someip-runtime.git
 which depends on VSOMEIP
 Project: https://github.com/GENIVI/vsomeip.git
 
+How to build and install:
+```
+cd build
+cmake -D USE_INSTALLED_COMMONAPI=ON -D CMAKE_INSTALL_PREFIX=/usr/local ..
+make
+sudo make install
+```
 To enforce logging use the same configuration like above for CommonAPI.
 
 ## Configuration files -> ./config

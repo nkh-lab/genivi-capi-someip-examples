@@ -24,7 +24,7 @@ define org.genivi.commonapi.someip.deployment for interface commonapi.examples.I
     }
 }
 
-define org.genivi.commonapi.someip.deployment for provider Interface1Service {
+define org.genivi.commonapi.someip.deployment for provider as Interface1Service {
     instance commonapi.examples.Interface1 {
         InstanceId = "commonapi.examples.Interface1"
         
