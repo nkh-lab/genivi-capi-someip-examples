@@ -1,0 +1,55 @@
+BasedOnStyle: Google
+
+AccessModifierOffset: -4
+IndentWidth: 4
+ColumnLimit: 100
+MaxEmptyLinesToKeep: 1
+
+Standard: Cpp11
+Cpp11BracedListStyle: true
+
+BreakConstructorInitializersBeforeComma: true
+BreakBeforeInheritanceComma: true
+AlwaysBreakTemplateDeclarations: true
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+
+FixNamespaceComments: true
+NamespaceIndentation: None
+SpacesBeforeTrailingComments: 1
+
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortBlocksOnASingleLine: false
+BinPackParameters: false
+BinPackArguments: false
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass:      true
+  AfterControlStatement: true
+  AfterEnum:       true
+  AfterFunction:   true
+  AfterNamespace:  false
+  AfterObjCDeclaration: true
+  AfterStruct:     true
+  AfterUnion:      true
+  BeforeCatch:     true
+  BeforeElse:      true
+  IndentBraces:    false
+AlignAfterOpenBracket: AlwaysBreak
+AlignTrailingComments: false
+
+IncludeBlocks: Preserve
+IncludeCategories:
+  - Regex:           '^<.*'
+    Priority:        1
+  - Regex:           '.*'
+    Priority:        2
+
+AlwaysBreakAfterReturnType: None
+PenaltyReturnTypeOnItsOwnLine: 1000
+PenaltyExcessCharacter: 6
+
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+IndentCaseLabels: false

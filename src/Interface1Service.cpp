@@ -1,3 +1,5 @@
+#include "Interface1Service.hpp"
+
 #include <iostream>
 
 #include <CommonAPI/CommonAPI.hpp>
@@ -9,11 +11,8 @@
 
 #include "nkh-lab/logger.hpp"
 
-int main(int argc, char *argv[])
+void Interface1Service::main()
 {
-    static_cast<void>(argc);
-    static_cast<void>(argv);
-
     LOG_INF << "Hello from Interface1Service";
 
     std::shared_ptr<CommonAPI::Runtime> runtime = CommonAPI::Runtime::get();
@@ -38,6 +37,9 @@ int main(int argc, char *argv[])
         LOG_INF << "Waiting for calls... (Abort with CTRL+C)";
         std::this_thread::sleep_for(std::chrono::seconds(60));
     }
+}
 
-    return 0;
+void Interface1Service::start()
+{
+    mThread = std::thread(&Interface1Service::main, this);
 }

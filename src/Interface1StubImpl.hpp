@@ -9,7 +9,10 @@ public:
     Interface1StubImpl() = default;
     virtual ~Interface1StubImpl() = default;
 
-    virtual void setUInt32(const std::shared_ptr<CommonAPI::ClientId> _client, uint32_t _value, setUInt32Reply_t _reply) override;
+    virtual void setUInt32(
+        const std::shared_ptr<CommonAPI::ClientId> _client,
+        uint32_t _value,
+        setUInt32Reply_t _reply) override;
     virtual void getUInt32(const std::shared_ptr<CommonAPI::ClientId> _client, getUInt32Reply_t _reply) override;
 
 private:

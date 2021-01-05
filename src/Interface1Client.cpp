@@ -1,3 +1,5 @@
+#include "Interface1Client.hpp"
+
 #include <iostream>
 
 #include <CommonAPI/CommonAPI.hpp>
@@ -11,75 +13,100 @@
 
 using namespace v0::commonapi::examples;
 
-int main(int argc, char *argv[])
+uint32_t Interface1Client::mClientCounter = 0;
+
+Interface1Client::Interface1Client(const std::string& clientName)
+    : mClientName(clientName)
 {
-    static_cast<void>(argc);
-    static_cast<void>(argv);
+    ++mClientCounter;
+    mClientID = mClientCounter;
 
-    LOG_INF << "Hello from Interface1Client";
+    mClientInfo = getClientInfo();
+}
 
-    std::shared_ptr < CommonAPI::Runtime > runtime = CommonAPI::Runtime::get();
+void Interface1Client::main()
+{
+    LOG_INF << mClientInfo << ": Hello from Interface1Client";
 
-    if(!CHECK(runtime, "CommonAPI::Runtime::get() returned nullptr")) return -1;
+    std::shared_ptr<CommonAPI::Runtime> runtime = CommonAPI::Runtime::get();
+
+    CHECK(runtime, "%s: CommonAPI::Runtime::get() returned nullptr", mClientInfo.c_str());
 
     std::string domain = "local";
     std::string instance = "commonapi.examples.Interface1";
 
-    std::shared_ptr<Interface1Proxy<>> myProxy = runtime->buildProxy<Interface1Proxy>(domain, instance);
+    std::shared_ptr<Interface1Proxy<>> myProxy =
+        runtime->buildProxy<Interface1Proxy>(domain, instance);
 
-    if(!CHECK(myProxy, "runtime->buildProxy() returned nullptr")) return -1;
+    CHECK(myProxy, "%s: runtime->buildProxy() returned nullptr", mClientInfo.c_str());
 
-    LOG_INF << "Checking availability!";
+    LOG_INF << mClientInfo << ": Checking availability!";
 
-    while (!myProxy->isAvailable())
-        std::this_thread::sleep_for(std::chrono::microseconds(10));
+    while (!myProxy->isAvailable()) std::this_thread::sleep_for(std::chrono::microseconds(10));
 
-    LOG_INF << "Available...";
+    LOG_INF << mClientInfo << ": Available...";
 
     CommonAPI::CallStatus callStatus;
 
-    uint32_t s=0;
-    uint32_t g=0;
+    uint32_t s = 0;
+    uint32_t g = 0;
     std::string gS;
 
     myProxy->getAStringAttribute().getChangedEvent().subscribe(
-    [](std::string s)
-    {
-        LOG_INF << "aString was changed to: " << s;
-    }
-    ,
-    [](CommonAPI::CallStatus aStringCallStatus)
-    {
-        LOG_INF << "aString CallStatus: " << static_cast<int>(aStringCallStatus);
-    }
-    );
+        [this](std::string s) { LOG_INF << mClientInfo << ": aString was changed to: " << s; },
+        [this](CommonAPI::CallStatus aStringCallStatus) {
+            LOG_INF << mClientInfo << ": aString CallStatus: " << static_cast<int>(aStringCallStatus);
+        });
 
     while (true)
     {
         myProxy->getAStringAttribute().setValue(std::to_string(s), callStatus, gS);
 
-        if (CHECK(callStatus == CommonAPI::CallStatus::SUCCESS, "getAStringAttribute().setValue() call failed!"))
+        if (CHECK(
+                callStatus == CommonAPI::CallStatus::SUCCESS,
+                "%s: getAStringAttribute().setValue() call failed!",
+                mClientInfo.c_str()))
         {
-            LOG_INF << "getAStringAttribute().setValue() was set to: " << gS;
+            LOG_INF << mClientInfo << ": getAStringAttribute().setValue() was set to: " << gS;
         }
-        else return -1;
 
-        LOG_INF << "setUInt32(): " << s;
+        LOG_INF << mClientInfo << ": setUInt32(): " << s;
 
         myProxy->setUInt32(s, callStatus);
-        if (!CHECK(callStatus == CommonAPI::CallStatus::SUCCESS, "setUInt32() call failed!")) return -1;
+        CHECK(
+            callStatus == CommonAPI::CallStatus::SUCCESS,
+            "%s: setUInt32() call failed!",
+            mClientInfo.c_str());
 
         std::this_thread::sleep_for(std::chrono::seconds(3));
 
         myProxy->getUInt32(callStatus, g);
-        if (!CHECK(callStatus == CommonAPI::CallStatus::SUCCESS, "getUInt32() call failed!")) return -1;
+        CHECK(
+            callStatus == CommonAPI::CallStatus::SUCCESS,
+            "%s: getUInt32() call failed!",
+            mClientInfo.c_str());
 
-        LOG_INF << "getUInt32(): " << g;
+        LOG_INF << mClientInfo << ": getUInt32(): " << g;
 
         std::this_thread::sleep_for(std::chrono::seconds(3));
 
         ++s;
     }
+}
 
-    return 0;
+void Interface1Client::start()
+{
+    mThread = std::thread(&Interface1Client::main, this);
+}
+
+std::string Interface1Client::getClientInfo()
+{
+    if (mClientName != "")
+    {
+        return mClientName;
+    }
+    else
+    {
+        return "Client" + std::to_string(mClientID);
+    }
 }

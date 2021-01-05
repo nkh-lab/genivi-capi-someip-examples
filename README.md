@@ -4,7 +4,6 @@ Examples of GENIVI CommonAPI usage via SOMEIP.
 They cover Linux (tested on Ubuntu) and Android AOSP and NDK cases.
 
 For Android NDK please refer next Android Studio project: https://github.com/nkh-lab/ndk-capi-hello-world
-which uses current adapted implementation from ndk branch: https://github.com/nkh-lab/genivi-capi-someip-examples/tree/ndk .
 
 ## Dependencies
 **Used codegeneartion tool projects:**
@@ -149,10 +148,10 @@ cd ./build
 cmake ..
 make
 ```
-or for defined COMMONAPI_INTERNAL_COMPILATION
+or for switch off COMMONAPI_INTERNAL_COMPILATION, it is ON by default
 ```
 cd ./build
-cmake -DCOMMONAPI_INTERNAL_COMPILATION=ON ..
+cmake -DCOMMONAPI_INTERNAL_COMPILATION=OFF ..
 make
 ```
 
