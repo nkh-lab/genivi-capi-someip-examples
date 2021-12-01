@@ -2,7 +2,6 @@ cc_defaults {
     name: "capi-someip_defaults",
     vendor: true,
     rtti: true,
-    cpp_std: "gnu++11",
 
     cppflags: [
         "-fexceptions",
@@ -25,23 +24,23 @@ runtime_required = [
 cc_binary {
     name: "Interface1-Service",
     defaults: ["capi-someip_defaults"],
-    init_rc: ["aosp/Interface1-Service.rc"],
-
-    shared_libs: [
-        "libCommonAPI",
-        "libnkhlablogger",
-        "liblog",
-    ],
 
     local_include_dirs: [
+        "include",
         "src",
         "src-gen/commonapi",
     ],
 
     srcs: [
+        "src/Service.cpp",
         "src/Interface1Service.cpp",
         "src/Interface1StubImpl.cpp",
-        "src-gen/commonapi/v0/commonapi/examples/Interface1StubDefault.cpp",
+    ],
+
+    shared_libs: [
+        "libCommonAPI",
+        "libnkhlablogger",
+        "liblog",
     ],
 
     required: runtime_required,
@@ -50,20 +49,21 @@ cc_binary {
 cc_binary {
     name: "Interface1-Client",
     defaults: ["capi-someip_defaults"],
-    init_rc: ["aosp/Interface1-Client.rc"],
+
+    local_include_dirs: [
+        "include",
+        "src-gen/commonapi",
+    ],
+
+    srcs: [
+        "src/Client.cpp",
+        "src/Interface1Client.cpp",
+    ],
 
     shared_libs: [
         "libCommonAPI",
         "libnkhlablogger",
         "liblog",
-    ],
-
-    local_include_dirs: [
-        "src-gen/commonapi",
-    ],
-
-    srcs: [
-        "src/Interface1Client.cpp",
     ],
 
     required: runtime_required,
@@ -73,7 +73,13 @@ cc_library_shared {
     name: "libInterface1-SomeIP",
     defaults: ["capi-someip_defaults"],
 
+    // Keep vsomeip libraries in this order to avoid vsomeip_v3::application_impl::init() issue
+    // cerr: "Invalid configuration module!"
+    // see CMakeLists.txt for more details
     shared_libs: [
+        "libvsomeip3-cfg",
+        "libvsomeip3",
+        "libvsomeip3-sd",
         "libCommonAPI-SomeIP",
         "libCommonAPI",
     ],

@@ -10,45 +10,38 @@ cc_defaults {
         "-Wno-ignored-attributes",
         "-Wno-unused-parameter",
         "-Wno-overloaded-virtual",
-        "-DCOMMONAPI_INTERNAL_COMPILATION",
-    ],
-
-    // Keep vsomeip libraries in this order to avoid vsomeip_v3::application_impl::init() issue
-    // cerr: "Invalid configuration module!"
-    // see CMakeLists.txt for more details
-    shared_libs: [
-        "libvsomeip3-cfg",
-        "libvsomeip3",
-        "libCommonAPI",
-        "libCommonAPI-SomeIP",
-        "libnkhlablogger",
-        "liblog",
     ],
 
     ldflags: ["-Wl,-export-dynamic"],
 }
 
 runtime_required = [
+    "libInterface1-SomeIP",
+    "genivi-capi-someip-examples-commonapi.ini",
     "genivi-capi-someip-examples-vsomeip.json",
 ]
 
 cc_binary {
     name: "Interface1-Service",
     defaults: ["capi-someip_defaults"],
+    init_rc: ["aosp/Interface1-Service.rc"],
 
     local_include_dirs: [
         "include",
         "src",
         "src-gen/commonapi",
-        "src-gen/someip",
     ],
 
     srcs: [
         "src/Service.cpp",
         "src/Interface1Service.cpp",
         "src/Interface1StubImpl.cpp",
-        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPDeployment.cpp",
-        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPStubAdapter.cpp",
+    ],
+
+    shared_libs: [
+        "libCommonAPI",
+        "libnkhlablogger",
+        "liblog",
     ],
 
     required: runtime_required,
@@ -57,21 +50,60 @@ cc_binary {
 cc_binary {
     name: "Interface1-Client",
     defaults: ["capi-someip_defaults"],
+    init_rc: ["aosp/Interface1-Client.rc"],
 
     local_include_dirs: [
         "include",
         "src-gen/commonapi",
-        "src-gen/someip",
     ],
 
     srcs: [
         "src/Client.cpp",
         "src/Interface1Client.cpp",
-        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPDeployment.cpp",
-        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPProxy.cpp",
+    ],
+
+    shared_libs: [
+        "libCommonAPI",
+        "libnkhlablogger",
+        "liblog",
     ],
 
     required: runtime_required,
+}
+
+cc_library_shared {
+    name: "libInterface1-SomeIP",
+    defaults: ["capi-someip_defaults"],
+
+    // Keep vsomeip libraries in this order to avoid vsomeip_v3::application_impl::init() issue
+    // cerr: "Invalid configuration module!"
+    // see CMakeLists.txt for more details
+    shared_libs: [
+        "libvsomeip3-cfg",
+        "libvsomeip3",
+        "libvsomeip3-sd",
+        "libCommonAPI-SomeIP",
+        "libCommonAPI",
+    ],
+
+    local_include_dirs: [
+        "src-gen/someip",
+        "src-gen/commonapi"
+    ],
+
+    srcs: [
+        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPDeployment.cpp",
+        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPProxy.cpp",
+        "src-gen/someip/v0/commonapi/examples/Interface1SomeIPStubAdapter.cpp",
+    ],
+}
+
+prebuilt_etc {
+    name: "genivi-capi-someip-examples-commonapi.ini",
+    vendor: true,
+    sub_dir: "genivi-capi-someip-examples",
+    src: "config/commonapi.ini",
+    filename: "commonapi.ini"
 }
 
 prebuilt_etc {
@@ -79,5 +111,5 @@ prebuilt_etc {
     vendor: true,
     sub_dir: "genivi-capi-someip-examples",
     src: "config/vsomeip.json",
-    filename:"vsomeip.json"
+    filename: "vsomeip.json"
 }

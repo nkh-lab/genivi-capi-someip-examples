@@ -35,6 +35,7 @@ runtime_required = [
 cc_binary {
     name: "Interface1-Service",
     defaults: ["capi-someip_defaults"],
+    init_rc: ["aosp/Interface1-Service_InternalCompilation.rc"],
 
     local_include_dirs: [
         "include",
@@ -57,6 +58,7 @@ cc_binary {
 cc_binary {
     name: "Interface1-Client",
     defaults: ["capi-someip_defaults"],
+    init_rc: ["aosp/Interface1-Client_InternalCompilation.rc"],
 
     local_include_dirs: [
         "include",
