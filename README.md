@@ -185,10 +185,6 @@ or for defined COMMONAPI_INTERNAL_COMPILATION
 
 ### On AOSP
 #### Manualy under root:
-Require to:
-```sh
-mkdir /data/vendor/vsomeip
-```
 Example for runtime SOMEIP interface library, COMMONAPI_INTERNAL_COMPILATION not defined
 Service:
 ```sh
@@ -217,13 +213,7 @@ VSOMEIP_CONFIGURATION=/vendor/etc/genivi-capi-someip-examples/vsomeip.json \
 Interface1-Client
 ```
 #### Via init.rc
-Please see ./aosp stuff.
-
-**Atention!**: Base path should be changed in /external/vsomeip/implementation/configuration/include/internal_android.hpp from "/storage/" to:
-```cpp
-#define VSOMEIP_BASE_PATH                       "/data/vendor/vsomeip/"
-```
-In https://github.com/nkh-lab/vsomeip.git already changed.
+Please see [aosp](aosp) stuff.
 
 ## How sockets are used
 ```sh

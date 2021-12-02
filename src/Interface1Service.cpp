@@ -11,9 +11,22 @@
 
 #include "nkh-lab/logger.hpp"
 
+#define VSOMEIP_ENV_APPLICATION_NAME            "VSOMEIP_APPLICATION_NAME"
+#define VSOMEIP_ENV_CONFIGURATION               "VSOMEIP_CONFIGURATION"
+#define VSOMEIP_ENV_BASE_PATH                   "VSOMEIP_BASE_PATH"
+#define COMMONAPI_ENV_CONFIG                    "COMMONAPI_CONFIG"
+
 void Interface1Service::main()
 {
     LOG_INF << "Hello from Interface1Service";
+
+    // check configured environment variables
+    LOG_INF << "Check configured environment variables:";
+    const char* env = nullptr;
+    LOG_INF << "    " << VSOMEIP_ENV_APPLICATION_NAME << ": " << (env = getenv(VSOMEIP_ENV_APPLICATION_NAME), env ? env : "");
+    LOG_INF << "    " << VSOMEIP_ENV_CONFIGURATION << ":    " << (env = getenv(VSOMEIP_ENV_CONFIGURATION), env ? env : "");
+    LOG_INF << "    " << VSOMEIP_ENV_BASE_PATH << ":        " << (env = getenv(VSOMEIP_ENV_BASE_PATH), env ? env : "");
+    LOG_INF << "    " << COMMONAPI_ENV_CONFIG << ":         " << (env = getenv(COMMONAPI_ENV_CONFIG), env ? env : "");
 
     std::shared_ptr<CommonAPI::Runtime> runtime = CommonAPI::Runtime::get();
 

@@ -5,6 +5,7 @@ service Interface1-Service /vendor/bin/Interface1-Service
     disabled
     setenv VSOMEIP_APPLICATION_NAME Interface1-Service
     setenv VSOMEIP_CONFIGURATION    /vendor/etc/genivi-capi-someip-examples/vsomeip.json
+    setenv VSOMEIP_BASE_PATH        /data/vendor/vsomeip/
     setenv COMMONAPI_CONFIG         /vendor/etc/genivi-capi-someip-examples/commonapi.ini
 
 on property:sys.boot_completed=1
