@@ -1,4 +1,4 @@
-service Interface1-Client /vendor/bin/Interface1-Client
+service vendor.Interface1-Client /vendor/bin/Interface1-Client
     class   main
     user    oem_2901
     group   oem_2901
@@ -7,5 +7,5 @@ service Interface1-Client /vendor/bin/Interface1-Client
     setenv VSOMEIP_CONFIGURATION    /vendor/etc/genivi-capi-someip-examples/vsomeip.json
     setenv VSOMEIP_BASE_PATH        /data/vendor/vsomeip/
 
-on property:init.svc.Interface1-Service=running
-    start Interface1-Client
+on property:init.svc.vendor.Interface1-Service=running
+    start vendor.Interface1-Client

@@ -1,4 +1,4 @@
-service Interface1-Service /vendor/bin/Interface1-Service
+service vendor.Interface1-Service /vendor/bin/Interface1-Service
     class   main
     user    oem_2901
     group   oem_2901
@@ -10,4 +10,4 @@ service Interface1-Service /vendor/bin/Interface1-Service
 
 on property:sys.boot_completed=1
     mkdir /data/vendor/vsomeip 0771 oem_2901 oem_2901
-    start Interface1-Service
+    start vendor.Interface1-Service

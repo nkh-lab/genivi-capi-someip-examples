@@ -9,5 +9,5 @@ allow Interface1-Client vendor_data_file:sock_file { create setattr read write u
 allow Interface1-Client Interface1-Service:unix_stream_socket connectto;
 
 #============= vendor_init ==============
-# Allow to read property 'init.svc.Interface1-Service=running' to start client
-allow vendor_init default_prop:file read;
+# Allow to read property 'init.svc.vendor.Interface1-Service=running' to start client
+get_prop(vendor_init, vendor_default_prop)
