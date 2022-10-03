@@ -1,7 +1,7 @@
 service vendor.Interface1-Client /vendor/bin/Interface1-Client
     class   main
-    user    oem_2901
-    group   oem_2901
+    user    vendor_nkhlab
+    group   vendor_nkhlab
     disabled
     setenv VSOMEIP_APPLICATION_NAME Interface1-Client
     setenv VSOMEIP_CONFIGURATION    /vendor/etc/genivi-capi-someip-examples/vsomeip.json

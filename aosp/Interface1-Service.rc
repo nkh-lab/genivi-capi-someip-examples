@@ -1,7 +1,7 @@
 service vendor.Interface1-Service /vendor/bin/Interface1-Service
     class   main
-    user    oem_2901
-    group   oem_2901
+    user    vendor_nkhlab
+    group   vendor_nkhlab
     disabled
     setenv VSOMEIP_APPLICATION_NAME Interface1-Service
     setenv VSOMEIP_CONFIGURATION    /vendor/etc/genivi-capi-someip-examples/vsomeip.json
@@ -9,5 +9,5 @@ service vendor.Interface1-Service /vendor/bin/Interface1-Service
     setenv COMMONAPI_CONFIG         /vendor/etc/genivi-capi-someip-examples/commonapi.ini
 
 on property:sys.boot_completed=1
-    mkdir /data/vendor/vsomeip 0771 oem_2901 oem_2901
+    mkdir /data/vendor/vsomeip 0771 vendor_nkhlab vendor_nkhlab
     start vendor.Interface1-Service
